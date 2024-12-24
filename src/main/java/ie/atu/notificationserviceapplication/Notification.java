@@ -12,7 +12,7 @@ import java.util.Date;
 public class Notification {
 
     @Id
-    private String id;         // MongoDB will generate the id automatically
+    private String id;
     private String message;
     private String recipient;
     private String type;
@@ -21,7 +21,7 @@ public class Notification {
     // Default constructor
     public Notification() {}
 
-    // Constructor with parameters
+
     public Notification(String message, String recipient, String type, boolean isSent) {
         this.message = message;
         this.recipient = recipient;
@@ -29,7 +29,6 @@ public class Notification {
         this.isSent = isSent;
     }
 
-    // Getters and setters
     public String getId() {
         return id;
     }
