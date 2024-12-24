@@ -1,47 +1,37 @@
 package ie.atu.notificationserviceapplication;
 
-import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class NotificationService {
-    private final NotificationRepository notificationRepository;
 
-    public Notification createNotification(Notification notification) {
-        return notificationRepository.save(notification);
-    }
-
-    public Notification getNotificationById(String notificationId) {
-        Optional<Notification> notification = notificationRepository.findById(notificationId);
-        return notification.orElse(null);
-    }
+    @Autowired
+    private NotificationRepository notificationRepository;
 
     public List<Notification> getAllNotifications() {
         return notificationRepository.findAll();
     }
 
-    public Notification updateNotification(String notificationId, Notification notificationDetails) {
-        Notification notification = getNotificationById(notificationId);
-        if (notification != null) {
-            notification.setMessage(notificationDetails.getMessage());
-            notification.setRecipient(notificationDetails.getRecipient());
-            notification.setSentAt(notificationDetails.getSentAt());
-            notification.setType(notificationDetails.getType());
-            return notificationRepository.save(notification);
-        }
-        return null;
+    public Optional<Notification> getNotificationById(String id) {
+        return notificationRepository.findById(id);
     }
 
-    public boolean deleteNotification(String notificationId) {
-        Notification notification = getNotificationById(notificationId);
-        if (notification != null) {
-            notificationRepository.delete(notification);
-            return true;
-        }
-        return false;
+    public Notification createNotification(Notification notification) {
+        // MongoDB will auto-generate the ID, so the response will include it
+        return notificationRepository.save(notification);
+    }
+
+    public Notification updateNotification(String id, Notification notification) {
+        notification.setId(id);
+        return notificationRepository.save(notification);
+    }
+
+    public void deleteNotification(String id) {
+        notificationRepository.deleteById(id);
     }
 }
