@@ -17,6 +17,7 @@ public class Notification {
 
     public Notification() {}
 
+
     public Notification(String message, String recipient, String type, boolean isSent) {
         this.message = message;
         this.recipient = recipient;
