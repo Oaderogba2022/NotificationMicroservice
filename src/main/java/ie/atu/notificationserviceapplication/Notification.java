@@ -1,27 +1,22 @@
 package ie.atu.notificationserviceapplication;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
 
 @Document(collection = "notifications")
 public class Notification {
 
     @Id
-    private String id;         // MongoDB will generate the id automatically
+    private String id;
     private String message;
     private String recipient;
     private String type;
     private boolean isSent;
 
-    // Default constructor
     public Notification() {}
 
-    // Constructor with parameters
     public Notification(String message, String recipient, String type, boolean isSent) {
         this.message = message;
         this.recipient = recipient;
@@ -29,7 +24,6 @@ public class Notification {
         this.isSent = isSent;
     }
 
-    // Getters and setters
     public String getId() {
         return id;
     }
