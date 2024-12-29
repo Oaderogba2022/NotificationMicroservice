@@ -1,12 +1,9 @@
 package ie.atu.notificationserviceapplication;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
 
 @Document(collection = "notifications")
 public class Notification {
@@ -18,7 +15,6 @@ public class Notification {
     private String type;
     private boolean isSent;
 
-    // Default constructor
     public Notification() {}
 
 
