@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class NotificationService {
@@ -17,12 +17,13 @@ public class NotificationService {
         return notificationRepository.findAll();
     }
 
-    public Optional<Notification> getNotificationById(String id) {
-        return notificationRepository.findById(id);
+    public Notification getNotificationById(String id) {
+        return notificationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Notification not found"));
     }
 
+
     public Notification createNotification(Notification notification) {
-        // MongoDB will auto-generate the ID, so the response will include it
         return notificationRepository.save(notification);
     }
 
@@ -33,5 +34,10 @@ public class NotificationService {
 
     public void deleteNotification(String id) {
         notificationRepository.deleteById(id);
+    }
+
+    public Notification sendNotification(Notification notification) {
+        notification.setSent(true);
+        return notificationRepository.save(notification);
     }
 }

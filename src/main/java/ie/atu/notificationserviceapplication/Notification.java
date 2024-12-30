@@ -17,14 +17,13 @@ public class Notification {
 
     public Notification() {}
 
-
-    public Notification(String message, String recipient, String type, boolean isSent) {
-        this.message = message;
+    public Notification(String id, String recipient, String message, String type, boolean isSent) {
+        this.id = id;
         this.recipient = recipient;
+        this.message = message;
         this.type = type;
         this.isSent = isSent;
     }
-
     public String getId() {
         return id;
     }
