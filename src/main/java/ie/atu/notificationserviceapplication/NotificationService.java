@@ -17,7 +17,7 @@ public class NotificationService {
         return notificationRepository.findAll();
     }
 
-    public Notification getNotificationById(String id) {
+    public Notification getNotificationById(String id)  {
         return notificationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Notification not found"));
     }
