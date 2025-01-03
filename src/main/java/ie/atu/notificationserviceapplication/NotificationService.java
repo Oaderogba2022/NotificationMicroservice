@@ -1,6 +1,7 @@
 package ie.atu.notificationserviceapplication;
 
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,21 +11,29 @@ import java.util.List;
 @Service
 public class NotificationService {
 
+    private final NotificationRepository notificationRepository;
+    private final RabbitTemplate rabbitTemplate;
+
     @Autowired
-    private NotificationRepository notificationRepository;
+    public NotificationService(NotificationRepository notificationRepository, RabbitTemplate rabbitTemplate) {
+        this.notificationRepository = notificationRepository;
+        this.rabbitTemplate = rabbitTemplate;
+    }
 
     public List<Notification> getAllNotifications() {
         return notificationRepository.findAll();
     }
 
-    public Notification getNotificationById(String id)  {
+    public Notification getNotificationById(String id) {
         return notificationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Notification not found"));
     }
 
-
     public Notification createNotification(Notification notification) {
-        return notificationRepository.save(notification);
+        Notification savedNotification = notificationRepository.save(notification);
+        // Publish the notification to the RabbitMQ queue
+        rabbitTemplate.convertAndSend("notificationQueue", savedNotification);
+        return savedNotification;
     }
 
     public Notification updateNotification(String id, Notification notification) {
@@ -38,6 +47,8 @@ public class NotificationService {
 
     public Notification sendNotification(Notification notification) {
         notification.setSent(true);
-        return notificationRepository.save(notification);
+        Notification savedNotification = notificationRepository.save(notification);
+        rabbitTemplate.convertAndSend("notificationQueue", savedNotification);
+        return savedNotification;
     }
 }

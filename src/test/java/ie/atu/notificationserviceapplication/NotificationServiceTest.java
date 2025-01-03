@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,6 +19,9 @@ public class NotificationServiceTest {
     @Mock
     private NotificationRepository notificationRepository;
 
+    @Mock
+    private RabbitTemplate rabbitTemplate;
+
     @InjectMocks
     private NotificationService notificationService;
 
@@ -25,7 +29,6 @@ public class NotificationServiceTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
         notification = new Notification("1", "John Doe", "Test Message", "INFO", false);
     }
 
@@ -59,8 +62,11 @@ public class NotificationServiceTest {
         when(notificationRepository.save(any(Notification.class))).thenReturn(notification);
 
         Notification sentNotification = notificationService.sendNotification(notification);
+
         assertNotNull(sentNotification);
         assertTrue(sentNotification.isSent());
+
+        verify(rabbitTemplate, times(1)).convertAndSend("notificationQueue", sentNotification);
     }
 
     @Test
