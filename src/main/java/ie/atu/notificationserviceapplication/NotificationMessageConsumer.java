@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class NotificationMessageConsumer {
 
-    @RabbitListener(queues = "notificationQueue")
+    @RabbitListener(queues = "notificationQueues")
     public void handleNotification(Notification notification) {
         System.out.println("Received Notification: " + notification);
     }
