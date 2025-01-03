@@ -10,7 +10,7 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 @Configuration
 public class RabbitConfig {
 
-    @Bean
+    @Bean(name = "notificationQueueConfig")
     public Queue notificationQueue() {
         return new Queue("notificationQueue", false);
     }
