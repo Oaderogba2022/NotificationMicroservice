@@ -71,6 +71,7 @@ public class NotificationServiceTest {
 
     @Test
     public void testDeleteNotification() {
+
         doNothing().when(notificationRepository).deleteById("1");
 
         notificationService.deleteNotification("1");
