@@ -2,7 +2,7 @@ package ie.atu.notificationserviceapplication;
 
 public class NotificationMapper {
 
-    public static NotificationDTO toDTO(Notification notification) {
+    public static NotificationDTO toDTO(Notification notification)  {
         NotificationDTO notificationDTO = new NotificationDTO();
         notificationDTO.setId(notification.getId());
         notificationDTO.setRecipient(notification.getRecipient());
