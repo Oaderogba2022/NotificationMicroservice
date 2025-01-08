@@ -30,12 +30,12 @@ public class NotificationController {
     @GetMapping
     public List<Notification> getAllNotifications() {
         return notificationService.getAllNotifications();
-    }
+    }*/
 
     @PutMapping("/{id}")
     public Notification updateNotification(@PathVariable String id, @RequestBody Notification notification) {
         return notificationService.updateNotification(id, notification);
-    }*/
+    }
 
     @PostMapping
     public ResponseEntity<NotificationDTO> sendNotification(@RequestBody NotificationDTO notificationDTO) {
